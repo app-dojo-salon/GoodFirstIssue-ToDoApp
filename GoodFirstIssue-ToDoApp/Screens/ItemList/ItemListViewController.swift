@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ItemListViewController.swift
 //  GoodFirstIssue-ToDoApp
 //
 //  Created by Turara on 2020/09/06.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ItemListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
