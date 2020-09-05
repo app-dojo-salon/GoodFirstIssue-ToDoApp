@@ -14,6 +14,7 @@
 		C4C09D622503E9CA008D34A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4C09D612503E9CA008D34A5 /* Assets.xcassets */; };
 		C4C09D652503E9CA008D34A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4C09D632503E9CA008D34A5 /* LaunchScreen.storyboard */; };
 		C4C09D702503E9CA008D34A5 /* GoodFirstIssue_ToDoAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C09D6F2503E9CA008D34A5 /* GoodFirstIssue_ToDoAppTests.swift */; };
+		C4C09D7E2503EB6A008D34A5 /* ItemEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C09D7D2503EB6A008D34A5 /* ItemEditViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		C4C09D6B2503E9CA008D34A5 /* GoodFirstIssue-ToDoAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GoodFirstIssue-ToDoAppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4C09D6F2503E9CA008D34A5 /* GoodFirstIssue_ToDoAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodFirstIssue_ToDoAppTests.swift; sourceTree = "<group>"; };
 		C4C09D712503E9CA008D34A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C4C09D7D2503EB6A008D34A5 /* ItemEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemEditViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 		C4C09D7A2503EA73008D34A5 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				C4C09D7C2503EB58008D34A5 /* ItemEdit */,
 				C4C09D7B2503EA7D008D34A5 /* ItemList */,
 			);
 			path = Screens;
@@ -113,6 +116,14 @@
 				C4C09D5C2503E9C9008D34A5 /* ItemListViewController.swift */,
 			);
 			path = ItemList;
+			sourceTree = "<group>";
+		};
+		C4C09D7C2503EB58008D34A5 /* ItemEdit */ = {
+			isa = PBXGroup;
+			children = (
+				C4C09D7D2503EB6A008D34A5 /* ItemEditViewController.swift */,
+			);
+			path = ItemEdit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,6 +230,7 @@
 				C4C09D5D2503E9C9008D34A5 /* ItemListViewController.swift in Sources */,
 				C4C09D592503E9C9008D34A5 /* AppDelegate.swift in Sources */,
 				C4C09D5B2503E9C9008D34A5 /* SceneDelegate.swift in Sources */,
+				C4C09D7E2503EB6A008D34A5 /* ItemEditViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
