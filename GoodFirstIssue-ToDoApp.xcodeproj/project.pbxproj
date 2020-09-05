@@ -15,6 +15,7 @@
 		C4C09D652503E9CA008D34A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4C09D632503E9CA008D34A5 /* LaunchScreen.storyboard */; };
 		C4C09D702503E9CA008D34A5 /* GoodFirstIssue_ToDoAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C09D6F2503E9CA008D34A5 /* GoodFirstIssue_ToDoAppTests.swift */; };
 		C4C09D7E2503EB6A008D34A5 /* ItemEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C09D7D2503EB6A008D34A5 /* ItemEditViewController.swift */; };
+		C4C09D802503ECC6008D34A5 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C4C09D7F2503ECC6008D34A5 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		C4C09D6F2503E9CA008D34A5 /* GoodFirstIssue_ToDoAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodFirstIssue_ToDoAppTests.swift; sourceTree = "<group>"; };
 		C4C09D712503E9CA008D34A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4C09D7D2503EB6A008D34A5 /* ItemEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemEditViewController.swift; sourceTree = "<group>"; };
+		C4C09D7F2503ECC6008D34A5 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 		C4C09D4C2503E9C9008D34A5 = {
 			isa = PBXGroup;
 			children = (
+				C4C09D7F2503ECC6008D34A5 /* README.md */,
 				C4C09D572503E9C9008D34A5 /* GoodFirstIssue-ToDoApp */,
 				C4C09D6E2503E9CA008D34A5 /* GoodFirstIssue-ToDoAppTests */,
 				C4C09D562503E9C9008D34A5 /* Products */,
@@ -209,6 +212,7 @@
 			files = (
 				C4C09D652503E9CA008D34A5 /* LaunchScreen.storyboard in Resources */,
 				C4C09D622503E9CA008D34A5 /* Assets.xcassets in Resources */,
+				C4C09D802503ECC6008D34A5 /* README.md in Resources */,
 				C4C09D602503E9C9008D34A5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
