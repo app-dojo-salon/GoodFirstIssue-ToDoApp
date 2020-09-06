@@ -7,7 +7,18 @@
 //
 
 import XCTest
+import RealmSwift
+
 @testable import GoodFirstIssue_ToDoApp
+
+class Item: Objecg {
+    let id: Int
+    var name: String
+    var isChecked: Bool
+    var isDeleted: Bool
+    
+}
+
 
 class GoodFirstIssue_ToDoAppTests: XCTestCase {
 
