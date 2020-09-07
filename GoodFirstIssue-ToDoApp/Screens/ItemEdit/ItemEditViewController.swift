@@ -8,9 +8,8 @@
 
 import UIKit
 
-class ItemEditViewController: UIViewController, UITextFieldDelegate {
+class ItemEditViewController: UIViewController {
 
-    @IBOutlet weak var cancelButton: UIBarButtonItem!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var nameTextField: UITextField!
     
@@ -18,6 +17,15 @@ class ItemEditViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         title = "項目追加"
         nameTextField.delegate = self
+        
+        let tapGesture:UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(ItemEditViewController.tapped(_:)))
+        
+        tapGesture.delegate = self
+        
+        self.view.addGestureRecognizer(tapGesture)
+        
     }
     
     @IBAction func tapCancel(_ sender: Any) {
@@ -27,24 +35,23 @@ class ItemEditViewController: UIViewController, UITextFieldDelegate {
     @IBAction func tapSave(_ sender: Any) {
         dismiss(animated: false)
     }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        if nameTextField.text != "" {
-            saveButton.isEnabled = true
-        }
-    }
-    
+}
+
+extension ItemEditViewController: UITextFieldDelegate {
+
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        if nameTextField.text != "" {
-            saveButton.isEnabled = true
-        }
+        saveButton.isEnabled = nameTextField.text != ""
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         nameTextField.endEditing(true)
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        nameTextField.endEditing(true)
+}
+
+extension ItemEditViewController: UIGestureRecognizerDelegate {
+    @objc func tapped(_ sender: UITapGestureRecognizer){
+        if sender.state == .ended {
+            nameTextField.endEditing(true)
+        }
     }
 }

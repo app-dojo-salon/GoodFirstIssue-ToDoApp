@@ -80,9 +80,9 @@
                         <viewLayoutGuide key="safeArea" id="Nhx-gw-fqI"/>
                     </view>
                     <navigationItem key="navigationItem" id="4Pk-Jc-M8J">
-                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="htU-Ix-KpC">
+                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="21c-Dq-ZhJ">
                             <connections>
-                                <action selector="tapCancel:" destination="f9M-Mn-WVJ" id="oV1-Du-q4N"/>
+                                <action selector="tapCancel:" destination="f9M-Mn-WVJ" id="yeU-3T-rdh"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" enabled="NO" style="plain" systemItem="save" id="GAL-SW-4Mb">
@@ -92,7 +92,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="cancelButton" destination="htU-Ix-KpC" id="cgR-az-CEM"/>
                         <outlet property="nameTextField" destination="oAG-ld-2Ds" id="go4-ch-rTG"/>
                         <outlet property="saveButton" destination="GAL-SW-4Mb" id="4PH-v4-LxG"/>
                     </connections>
