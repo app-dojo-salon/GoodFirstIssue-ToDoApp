@@ -18,16 +18,18 @@ class ItemEditViewController: UIViewController {
         title = "項目追加"
         nameTextField.delegate = self
         
-        let tapGesture:UITapGestureRecognizer = UITapGestureRecognizer(
-            target: self,
-            action: #selector(ItemEditViewController.tapped(_:)))
-        
-        tapGesture.delegate = self
+        let tapGesture = UITapGestureRecognizer(target: self,action: #selector(tapped(_:)))
         
         self.view.addGestureRecognizer(tapGesture)
         
     }
-    
+
+    @objc func tapped(_ sender: UITapGestureRecognizer){
+        if sender.state == .ended {
+            nameTextField.endEditing(true)
+        }
+    }
+
     @IBAction func tapCancel(_ sender: Any) {
         dismiss(animated: false)
     }
@@ -45,13 +47,5 @@ extension ItemEditViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         nameTextField.endEditing(true)
-    }
-}
-
-extension ItemEditViewController: UIGestureRecognizerDelegate {
-    @objc func tapped(_ sender: UITapGestureRecognizer){
-        if sender.state == .ended {
-            nameTextField.endEditing(true)
-        }
     }
 }
