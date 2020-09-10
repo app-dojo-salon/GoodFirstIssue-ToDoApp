@@ -80,16 +80,8 @@
                         <viewLayoutGuide key="safeArea" id="Nhx-gw-fqI"/>
                     </view>
                     <navigationItem key="navigationItem" id="4Pk-Jc-M8J">
-                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="21c-Dq-ZhJ">
-                            <connections>
-                                <action selector="tapCancel:" destination="f9M-Mn-WVJ" id="yeU-3T-rdh"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" style="plain" systemItem="save" id="GAL-SW-4Mb">
-                            <connections>
-                                <action selector="tapSave:" destination="f9M-Mn-WVJ" id="Kgc-xM-HQW"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="21c-Dq-ZhJ"/>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" style="plain" systemItem="save" id="GAL-SW-4Mb"/>
                     </navigationItem>
                     <connections>
                         <outlet property="nameTextField" destination="oAG-ld-2Ds" id="go4-ch-rTG"/>
