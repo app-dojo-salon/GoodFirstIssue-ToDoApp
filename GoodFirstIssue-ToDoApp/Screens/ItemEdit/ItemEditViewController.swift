@@ -34,15 +34,8 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapped(_:)))
         view.addGestureRecognizer(tapGesture)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
         
-        // cancelボタンが押された場合は、遷移の前にtextを空にする
-        if let barButtonItem = sender as? UIBarButtonItem, BarButtonType(rawValue: barButtonItem.tag) == .cancel {
-            nameTextField.text = ""
-        }
+        setupBarButtonActions()
     }
 }
 
@@ -61,15 +54,29 @@ extension ItemEditViewController: UITextFieldDelegate {
 // MARK: private
 
 private extension ItemEditViewController {
-    // Storyboardで設定したtagの値に対応
-    enum BarButtonType: Int {
-        case save = 0
-        case cancel = 1
+    enum Segue {
+        static let Exit = "Exit"
     }
     
     @objc func tapped(_ sender: UITapGestureRecognizer) {
         if sender.state == .ended {
             nameTextField.endEditing(true)
         }
+    }
+    
+    func setupBarButtonActions() {
+        navigationItem.leftBarButtonItem?.target = self
+        navigationItem.leftBarButtonItem?.action = #selector(cancelButtonTapped(_:))
+        navigationItem.rightBarButtonItem?.target = self
+        navigationItem.rightBarButtonItem?.action = #selector(saveButtonTapped(_:))
+    }
+    
+    @objc func saveButtonTapped(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: Segue.Exit, sender: nil)
+    }
+    
+    @objc func cancelButtonTapped(_ sender: UIBarButtonItem) {
+        nameTextField.text = ""
+        performSegue(withIdentifier: Segue.Exit, sender: nil)
     }
 }

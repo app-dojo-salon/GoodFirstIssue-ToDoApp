@@ -94,20 +94,13 @@
                         <viewLayoutGuide key="safeArea" id="Nhx-gw-fqI"/>
                     </view>
                     <navigationItem key="navigationItem" id="4Pk-Jc-M8J">
-                        <barButtonItem key="leftBarButtonItem" tag="1" style="plain" systemItem="cancel" id="21c-Dq-ZhJ">
-                            <connections>
-                                <segue destination="DIn-7y-ruS" kind="unwind" unwindAction="exitDoneWithSegue:" id="Vcc-vh-qC0"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="GAL-SW-4Mb">
-                            <connections>
-                                <segue destination="DIn-7y-ruS" kind="unwind" unwindAction="exitDoneWithSegue:" id="PRe-mY-UXl"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="21c-Dq-ZhJ"/>
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="GAL-SW-4Mb"/>
                     </navigationItem>
                     <connections>
                         <outlet property="nameTextField" destination="oAG-ld-2Ds" id="go4-ch-rTG"/>
                         <outlet property="saveButton" destination="GAL-SW-4Mb" id="4PH-v4-LxG"/>
+                        <segue destination="DIn-7y-ruS" kind="unwind" identifier="Exit" unwindAction="exitDoneWithSegue:" id="0jK-Rm-cUW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rGR-oZ-0J5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
