@@ -14,7 +14,19 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="27D-TH-37F">
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="27D-TH-37F" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="csx-mE-u1P"/>
+                            <constraint firstItem="27D-TH-37F" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="etY-eg-cDg"/>
+                            <constraint firstItem="27D-TH-37F" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="fEW-Ja-Z1a"/>
+                            <constraint firstAttribute="bottom" secondItem="27D-TH-37F" secondAttribute="bottom" id="nUf-Da-d51"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="チェックリスト" id="Roy-Ci-y24">
@@ -24,6 +36,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="27D-TH-37F" id="mx5-6R-QHa"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
