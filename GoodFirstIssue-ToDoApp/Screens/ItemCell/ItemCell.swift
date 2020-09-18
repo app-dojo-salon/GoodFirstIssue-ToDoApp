@@ -23,7 +23,7 @@ class ItemCell: UITableViewCell {
     
     func configure(name: String, checked: Bool) {
         itemNameLabel.text = name
-        checkedImage.isHidden = checked
+        checkedImage.isHidden = !checked
     }
     
     static func loadNib() -> UINib {

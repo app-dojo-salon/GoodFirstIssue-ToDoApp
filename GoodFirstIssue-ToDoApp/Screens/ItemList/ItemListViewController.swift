@@ -17,6 +17,7 @@ class ItemListViewController: UIViewController {
     }
     
     var itemList: [(String)] = []
+    var checkedList: [(Bool)] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,9 +32,10 @@ extension ItemListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ItemCell.reuseIdentifier, for: indexPath) as? ItemCell else { return UITableViewCell() }
-        cell.configure(name: itemList[indexPath.row], checked: false)
-        return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ItemCell.reuseIdentifier, for: indexPath)
+        guard let itemCell = cell as? ItemCell else { return cell }
+        itemCell.configure(name: itemList[indexPath.row], checked: checkedList[indexPath.row])
+        return itemCell
     }
     
 }
@@ -42,6 +44,7 @@ extension ItemListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
     }
 }
 
