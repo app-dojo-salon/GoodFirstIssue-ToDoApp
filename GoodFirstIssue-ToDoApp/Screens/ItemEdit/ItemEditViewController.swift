@@ -43,11 +43,9 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
         case .create:
             nameTextField.text = initialName
             break
-        case let .edit(id: id, name: name):
-            for item in itemArray {
-                if item.id == id {
-                    nameTextField.text = name
-                }
+        case let .edit(item: item):
+            if itemArray.contains(where: { $0.id == item.id }) {
+                nameTextField.text = item.name
             }
             break
         default:
@@ -68,6 +66,11 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
 // MARK: UITextFieldDelegate
 
 extension ItemEditViewController: UITextFieldDelegate {
+    enum Mode {
+        case create
+        case edit(item: Item)
+    }
+
     func textFieldDidChangeSelection(_ textField: UITextField) {
         saveButton.isEnabled = nameTextField.text != ""
     }
