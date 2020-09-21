@@ -9,9 +9,18 @@
 import UIKit
 
 class ItemEditViewController: UIViewController, ItemEditViewProtocol {
+    private var mode: Mode!
     
     // MARK: ItemEditViewProtocol
 
+    // 仮のデータ型
+    struct Item {
+        var id: Int
+        var name: String
+    }
+    // 仮のデータ配列（Realmから取得する予定）
+    var itemArray: [Item] = []
+    
     var itemId: Int?
     var initialName: String?
     var itemName: String {
@@ -19,6 +28,9 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
     }
     
     // MARK: Implementation
+    func setup(mode: Mode) {
+        self.mode = mode
+    }
     
     @IBOutlet weak private var saveButton: UIBarButtonItem!
     @IBOutlet weak private var nameTextField: UITextField!
@@ -27,7 +39,21 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
         super.viewDidLoad()
         title = "項目追加"
         
-        nameTextField.text = initialName
+        switch mode {
+        case .create:
+            nameTextField.text = initialName
+            break
+        case let .edit(id: id, name: name):
+            for item in itemArray {
+                if item.id == id {
+                    nameTextField.text = name
+                }
+            }
+            break
+        default:
+            nameTextField.text = initialName
+            break
+        }
         nameTextField.delegate = self
         
         saveButton.isEnabled = nameTextField.text != ""
