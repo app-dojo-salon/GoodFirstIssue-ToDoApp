@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RealmSwift
 
 class ItemEditViewController: UIViewController {
 
@@ -22,46 +21,6 @@ class ItemEditViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self,action: #selector(tapped(_:)))
         
         self.view.addGestureRecognizer(tapGesture)
-        
-        //Realm BDからの読み込み
-//        let libraryPath = NSHomeDirectory() + "/Library"
-//        let filePath = NSURL(fileURLWithPath: libraryPath + "/Tesr.realm")
-//
-//        let realm = try! Realm(fileURL: filePath as URL)
-//
-//        let objs = realm.objects(ItemModel.self)
-//
-//        var id: Int
-//        var name: String
-//        var isCheck: Bool
-//        var isDelet: Bool
-//
-//        if let obj = objs.last{
-//            id = obj.id
-//            name = obj.name
-//            isCheck = obj.isCheck
-//            isDelet = obj.isDelet
-//
-//            print(id)
-//            print(name)
-//            print(isCheck)
-//            print(isDelet)
-        
-        
-        let realm = try! Realm()
-        
-        let itemShow = realm.objects(ItemModel.self)
-        for item in itemShow{
-            print(item.id)
-            print(item.name)
-            print(item.isCheck)
-            print(item.isDelet)
-            
-        }
-        
-
-        
-        
         
     }
 
@@ -78,8 +37,6 @@ class ItemEditViewController: UIViewController {
     @IBAction func tapSave(_ sender: Any) {
         dismiss(animated: false)
     }
-    
-    
 }
 
 extension ItemEditViewController: UITextFieldDelegate {
