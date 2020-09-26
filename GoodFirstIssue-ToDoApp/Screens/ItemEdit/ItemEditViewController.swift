@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RealmSwift
 
 class ItemEditViewController: UIViewController, ItemEditViewProtocol {
     private var mode: Mode!
@@ -62,8 +61,6 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
         
         setupBarButtonActions()
     }
-    
-    
 }
 
 // MARK: UITextFieldDelegate

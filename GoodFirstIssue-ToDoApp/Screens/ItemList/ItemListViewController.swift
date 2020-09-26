@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RealmSwift
 
 protocol ItemEditViewProtocol {
     var itemId: Int? { get set }
