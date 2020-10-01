@@ -20,7 +20,7 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
     }
     // 仮のデータ配列（Realmから取得する予定）
     var itemArray: [Item] = []
-    
+
     var itemId: Int?
     var initialName: String?
     var itemName: String {
@@ -31,6 +31,7 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
     func setup(mode: Mode) {
         self.mode = mode
     }
+
     
     @IBOutlet weak private var saveButton: UIBarButtonItem!
     @IBOutlet weak private var nameTextField: UITextField!
@@ -38,7 +39,7 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "項目追加"
-        
+
         switch mode {
         case .create:
             nameTextField.text = initialName
@@ -73,10 +74,12 @@ extension ItemEditViewController: UITextFieldDelegate {
 
     func textFieldDidChangeSelection(_ textField: UITextField) {
         saveButton.isEnabled = nameTextField.text != ""
-    }
 
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        nameTextField.endEditing(true)
+    }
+    
+    @objc func cancelButtonTapped(_ sender: UIBarButtonItem) {
+        nameTextField.text = ""
+        performSegue(withIdentifier: Segue.Exit, sender: nil)
     }
 }
 
@@ -101,11 +104,6 @@ private extension ItemEditViewController {
     }
     
     @objc func saveButtonTapped(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: Segue.Exit, sender: nil)
-    }
-    
-    @objc func cancelButtonTapped(_ sender: UIBarButtonItem) {
-        nameTextField.text = ""
         performSegue(withIdentifier: Segue.Exit, sender: nil)
     }
 }
