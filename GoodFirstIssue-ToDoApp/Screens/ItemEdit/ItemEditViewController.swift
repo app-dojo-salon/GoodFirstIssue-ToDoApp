@@ -31,7 +31,6 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
     func setup(mode: Mode) {
         self.mode = mode
     }
-
     
     @IBOutlet weak private var saveButton: UIBarButtonItem!
     @IBOutlet weak private var nameTextField: UITextField!
@@ -71,6 +70,8 @@ extension ItemEditViewController: UITextFieldDelegate {
         case create
         case edit(item: Item)
     }
+
+// MARK: private
 
     func textFieldDidChangeSelection(_ textField: UITextField) {
         saveButton.isEnabled = nameTextField.text != ""
