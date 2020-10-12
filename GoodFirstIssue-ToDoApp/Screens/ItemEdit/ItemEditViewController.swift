@@ -9,8 +9,17 @@
 import UIKit
 
 class ItemEditViewController: UIViewController, ItemEditViewProtocol {
+    private var mode: Mode!
     
     // MARK: ItemEditViewProtocol
+
+    // 仮のデータ型
+    struct Item {
+        var id: Int
+        var name: String
+    }
+    // 仮のデータ配列（Realmから取得する予定）
+    var itemArray: [Item] = []
 
     var itemId: Int?
     var initialName: String?
@@ -19,6 +28,9 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
     }
     
     // MARK: Implementation
+    func setup(mode: Mode) {
+        self.mode = mode
+    }
     
     @IBOutlet weak private var saveButton: UIBarButtonItem!
     @IBOutlet weak private var nameTextField: UITextField!
@@ -26,8 +38,20 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "項目追加"
-        
-        nameTextField.text = initialName
+
+        switch mode {
+        case .create:
+            nameTextField.text = initialName
+            break
+        case let .edit(item: item):
+            if itemArray.contains(where: { $0.id == item.id }) {
+                nameTextField.text = item.name
+            }
+            break
+        default:
+            nameTextField.text = initialName
+            break
+        }
         nameTextField.delegate = self
         
         saveButton.isEnabled = nameTextField.text != ""
@@ -42,12 +66,21 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
 // MARK: UITextFieldDelegate
 
 extension ItemEditViewController: UITextFieldDelegate {
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        saveButton.isEnabled = nameTextField.text != ""
+    enum Mode {
+        case create
+        case edit(item: Item)
     }
 
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        nameTextField.endEditing(true)
+// MARK: private
+
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        saveButton.isEnabled = nameTextField.text != ""
+
+    }
+    
+    @objc func cancelButtonTapped(_ sender: UIBarButtonItem) {
+        nameTextField.text = ""
+        performSegue(withIdentifier: Segue.Exit, sender: nil)
     }
 }
 
@@ -72,11 +105,6 @@ private extension ItemEditViewController {
     }
     
     @objc func saveButtonTapped(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: Segue.Exit, sender: nil)
-    }
-    
-    @objc func cancelButtonTapped(_ sender: UIBarButtonItem) {
-        nameTextField.text = ""
         performSegue(withIdentifier: Segue.Exit, sender: nil)
     }
 }
