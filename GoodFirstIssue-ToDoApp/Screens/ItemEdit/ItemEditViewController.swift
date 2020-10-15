@@ -8,44 +8,103 @@
 
 import UIKit
 
-class ItemEditViewController: UIViewController {
+class ItemEditViewController: UIViewController, ItemEditViewProtocol {
+    private var mode: Mode!
+    
+    // MARK: ItemEditViewProtocol
 
-    @IBOutlet weak var saveButton: UIBarButtonItem!
-    @IBOutlet weak var nameTextField: UITextField!
+    // 仮のデータ型
+    struct Item {
+        var id: Int
+        var name: String
+    }
+    // 仮のデータ配列（Realmから取得する予定）
+    var itemArray: [Item] = []
+
+    var itemId: Int?
+    var initialName: String?
+    var itemName: String {
+        nameTextField.text ?? ""
+    }
+    
+    // MARK: Implementation
+    func setup(mode: Mode) {
+        self.mode = mode
+    }
+    
+    @IBOutlet weak private var saveButton: UIBarButtonItem!
+    @IBOutlet weak private var nameTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "項目追加"
+
+        switch mode {
+        case .create:
+            nameTextField.text = initialName
+            break
+        case let .edit(item: item):
+            if itemArray.contains(where: { $0.id == item.id }) {
+                nameTextField.text = item.name
+            }
+            break
+        default:
+            nameTextField.text = initialName
+            break
+        }
         nameTextField.delegate = self
         
-        let tapGesture = UITapGestureRecognizer(target: self,action: #selector(tapped(_:)))
+        saveButton.isEnabled = nameTextField.text != ""
         
-        self.view.addGestureRecognizer(tapGesture)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapped(_:)))
+        view.addGestureRecognizer(tapGesture)
         
+        setupBarButtonActions()
+    }
+}
+
+// MARK: UITextFieldDelegate
+
+extension ItemEditViewController: UITextFieldDelegate {
+    enum Mode {
+        case create
+        case edit(item: Item)
     }
 
-    @objc func tapped(_ sender: UITapGestureRecognizer){
+// MARK: private
+
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        saveButton.isEnabled = nameTextField.text != ""
+
+    }
+    
+    @objc func cancelButtonTapped(_ sender: UIBarButtonItem) {
+        nameTextField.text = ""
+        performSegue(withIdentifier: Segue.Exit, sender: nil)
+    }
+}
+
+// MARK: private
+
+private extension ItemEditViewController {
+    enum Segue {
+        static let Exit = "Exit"
+    }
+    
+    @objc func tapped(_ sender: UITapGestureRecognizer) {
         if sender.state == .ended {
             nameTextField.endEditing(true)
         }
     }
-
-    @IBAction func tapCancel(_ sender: Any) {
-        dismiss(animated: false)
+    
+    func setupBarButtonActions() {
+        navigationItem.leftBarButtonItem?.target = self
+        navigationItem.leftBarButtonItem?.action = #selector(cancelButtonTapped(_:))
+        navigationItem.rightBarButtonItem?.target = self
+        navigationItem.rightBarButtonItem?.action = #selector(saveButtonTapped(_:))
     }
     
-    @IBAction func tapSave(_ sender: Any) {
-        dismiss(animated: false)
-    }
-}
-
-extension ItemEditViewController: UITextFieldDelegate {
-
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        saveButton.isEnabled = nameTextField.text != ""
-    }
-
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        nameTextField.endEditing(true)
+    @objc func saveButtonTapped(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: Segue.Exit, sender: nil)
     }
 }

@@ -15,24 +15,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="27D-TH-37F">
-                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                            </tableView>
+                            bute="bottom" secondItem="27D-TH-37F" secondAttribute="bottom" id="nUf-Da-d51"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qO1-y7-qB6">
+                                <rect key="frame" x="129" y="427.5" width="156" height="41"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="To Edit VC Test"/>
+                                <connections>
+                                    <action selector="toEditVCTestTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0kf-6L-DKB"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="27D-TH-37F" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="csx-mE-u1P"/>
-                            <constraint firstItem="27D-TH-37F" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="etY-eg-cDg"/>
-                            <constraint firstItem="27D-TH-37F" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="fEW-Ja-Z1a"/>
-                            <constraint firstAttribute="bottom" secondItem="27D-TH-37F" secondAttribute="bottom" id="nUf-Da-d51"/>
+                            <constraint firstItem="qO1-y7-qB6" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="e1B-yH-7Hv"/>
+                            <constraint firstItem="qO1-y7-qB6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fsJ-oX-XB8"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="チェックリスト" id="Roy-Ci-y24">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="b1N-JF-cck">
                             <connections>
-                                <segue destination="Xpa-hb-3QJ" kind="presentation" id="0l6-cl-DUx"/>
+                                <segue destination="Xpa-hb-3QJ" kind="presentation" identifier="ToItemEditVC" id="0l6-cl-DUx"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -95,23 +98,17 @@
                         <viewLayoutGuide key="safeArea" id="Nhx-gw-fqI"/>
                     </view>
                     <navigationItem key="navigationItem" id="4Pk-Jc-M8J">
-                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="21c-Dq-ZhJ">
-                            <connections>
-                                <action selector="tapCancel:" destination="f9M-Mn-WVJ" id="yeU-3T-rdh"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" style="plain" systemItem="save" id="GAL-SW-4Mb">
-                            <connections>
-                                <action selector="tapSave:" destination="f9M-Mn-WVJ" id="Kgc-xM-HQW"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="21c-Dq-ZhJ"/>
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="GAL-SW-4Mb"/>
                     </navigationItem>
                     <connections>
                         <outlet property="nameTextField" destination="oAG-ld-2Ds" id="go4-ch-rTG"/>
                         <outlet property="saveButton" destination="GAL-SW-4Mb" id="4PH-v4-LxG"/>
+                        <segue destination="DIn-7y-ruS" kind="unwind" identifier="Exit" unwindAction="exitDoneWithSegue:" id="0jK-Rm-cUW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rGR-oZ-0J5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="DIn-7y-ruS" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="862.5"/>
         </scene>
