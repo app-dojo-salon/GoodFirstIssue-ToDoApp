@@ -7,38 +7,68 @@
 //
 
 import UIKit
+import RealmSwift
 
 protocol ItemEditViewProtocol {
     var itemId: Int? { get set }
     var initialName: String? { get set }
     var itemName: String { get }
+    func setup(mode: ItemEditViewController.Mode)
 }
 
 class ItemListViewController: UIViewController {
 
     @IBOutlet private weak var tableView: UITableView! {
         didSet {
+            tableView.delegate = self
+            tableView.dataSource = self
             tableView.register(ItemCell.loadNib(), forCellReuseIdentifier: ItemCell.reuseIdentifier)
         }
     }
-    
+    var realm: Realm?
     var itemList: [(String)] = []
     var checkedList: [(Bool)] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        realm = try! Realm()
+        for item in realm!.objects(Item.self) {
+            itemList.append(item.name)
+            checkedList.append(item.isChecked)
+        }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
+
         
-        // senderがItemのときはitemEditViewに初期値を設定する
-        if segue.identifier == Segue.ToItemEditVC, let item = sender as? TempItem {
-            configure(itemEditViewContainer: segue.destination, with: item)
+        if segue.identifier == Segue.ToItemEditVC {
+            if let item = sender as? Item {
+                // senderがItemのときはitemEditViewに初期値を設定する
+                configure(itemEditViewContainer: segue.destination, with: item)
+            } else {
+                if let container = segue.destination as? UINavigationController,
+                    let itemEditView = container.topViewController as? ItemEditViewProtocol {
+                    itemEditView.setup(mode: ItemEditViewController.Mode.create)
+                }
+            }
         }
     }
     
     @IBAction private func exitDone(segue: UIStoryboardSegue) {
+        itemList = []
+        checkedList = []
+        realm = try! Realm()
+        for item in realm!.objects(Item.self) {
+            itemList.append(item.name)
+            checkedList.append(item.isChecked)
+        }
+        tableView.reloadData()
+
         guard let itemEditView = segue.source as? ItemEditViewProtocol else {
             return
         }
@@ -59,11 +89,12 @@ private extension ItemListViewController {
     }
 
     // itemEidtViewのcontainerがNavigationControllerである前提
-    func configure(itemEditViewContainer: UIViewController, with item: TempItem) {
+    func configure(itemEditViewContainer: UIViewController, with item: Item) {
         if let container = itemEditViewContainer as? UINavigationController,
             var itemEditView = container.topViewController as? ItemEditViewProtocol {
             itemEditView.itemId = item.id
             itemEditView.initialName = item.name
+            itemEditView.setup(mode: ItemEditViewController.Mode.edit(item: item))
         }
     }
 }
@@ -81,7 +112,9 @@ extension ItemListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         itemList.count
     }
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        60
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ItemCell.reuseIdentifier, for: indexPath)
         guard let itemCell = cell as? ItemCell else { return cell }

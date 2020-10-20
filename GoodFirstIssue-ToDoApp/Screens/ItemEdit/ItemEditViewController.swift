@@ -10,17 +10,13 @@ import UIKit
 import RealmSwift
 
 class ItemEditViewController: UIViewController, ItemEditViewProtocol {
+    private var realm: Realm?
     private var mode: Mode!
     
     // MARK: ItemEditViewProtocol
 
-    // 仮のデータ型
-    struct Item {
-        var id: Int
-        var name: String
-    }
     // 仮のデータ配列（Realmから取得する予定）
-    var itemArray: [Item] = []
+    var itemArray: Results<Item>?
 
     var itemId: Int?
     var initialName: String?
@@ -38,15 +34,19 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "項目追加"
+        realm = try! Realm()
+        itemArray = realm!.objects(Item.self)
 
         switch mode {
         case .create:
+            title = "項目追加"
             nameTextField.text = initialName
             break
         case let .edit(item: item):
-            if itemArray.contains(where: { $0.id == item.id }) {
+            title = "項目編集"
+            if itemArray!.contains(where: { $0.id == item.id }) {
                 nameTextField.text = item.name
+                itemId = item.id
             }
             break
         default:
@@ -106,6 +106,24 @@ private extension ItemEditViewController {
     }
     
     @objc func saveButtonTapped(_ sender: UIBarButtonItem) {
+        switch mode {
+        case .create:
+            let item: Item = Item()
+            var maxId: Int { return try! Realm().objects(Item.self).sorted(byKeyPath: "id").last?.id ?? 0 }
+            item.id = maxId + 1
+            item.name = nameTextField.text!
+            try! realm!.write {
+                realm!.add(item)
+            }
+            break
+        case .edit(item: itemArray![itemId!]):
+            try! realm!.write {
+                realm!.add(itemArray![itemId!], update: Realm.UpdatePolicy.all)
+            }
+            break
+        default :
+            break
+        }
         performSegue(withIdentifier: Segue.Exit, sender: nil)
     }
 }
