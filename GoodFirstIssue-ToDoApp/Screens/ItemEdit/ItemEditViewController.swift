@@ -14,7 +14,6 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
     
     // MARK: ItemEditViewProtocol
 
-    private var currentItem: Item?
     var itemId: Int?
     var initialName: String?
     var itemName: String {
@@ -32,16 +31,15 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        nameTextField.text = initialName
         switch mode {
         case .create:
             title = "項目追加"
-            nameTextField.text = initialName
-        case let .edit(item: item):
+        case let .edit(id: id):
             title = "項目編集"
-            nameTextField.text = item.name
-            currentItem = item
+            itemId = id
         default:
-            nameTextField.text = initialName
+            break
         }
         nameTextField.delegate = self
         
@@ -59,7 +57,7 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
 extension ItemEditViewController: UITextFieldDelegate {
     enum Mode {
         case create
-        case edit(item: Item)
+        case edit(id: Int)
     }
 
 // MARK: private
@@ -107,10 +105,15 @@ private extension ItemEditViewController {
                 try! realm.write {
                     realm.add(item)
                 }
-            case .edit(item: currentItem):
-                currentItem!.name = nameTextField.text!
+            case .edit(id: itemId):
+                guard let item = realm.object(ofType: Item.self, forPrimaryKey: itemId) else {
+                    assertionFailure("id is invalid")
+                    return
+                }
+                
                 try! realm.write {
-                    realm.add(currentItem!, update: Realm.UpdatePolicy.all)
+                    item.name = nameTextField.text!
+                    realm.add(item, update: Realm.UpdatePolicy.all)
                 }
             default :
                 break

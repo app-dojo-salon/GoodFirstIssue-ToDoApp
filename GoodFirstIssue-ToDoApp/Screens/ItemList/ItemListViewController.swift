@@ -86,7 +86,7 @@ private extension ItemListViewController {
             var itemEditView = container.topViewController as? ItemEditViewProtocol {
             itemEditView.itemId = item.id
             itemEditView.initialName = item.name
-            itemEditView.setup(mode: ItemEditViewController.Mode.edit(item: item))
+            itemEditView.setup(mode: ItemEditViewController.Mode.edit(id: item.id))
         }
     }
 }
