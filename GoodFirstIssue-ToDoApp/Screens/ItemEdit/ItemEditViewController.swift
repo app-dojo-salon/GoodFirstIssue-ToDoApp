@@ -14,7 +14,7 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
     
     // MARK: ItemEditViewProtocol
 
-    let itemArray: Results<Item> = try! Realm().objects(Item.self)
+    private var currentItem: Item?
     var itemId: Int?
     var initialName: String?
     var itemName: String {
@@ -38,10 +38,8 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
             nameTextField.text = initialName
         case let .edit(item: item):
             title = "項目編集"
-            if itemArray.contains(where: { $0.id == item.id }) {
-                nameTextField.text = item.name
-                itemId = item.id
-            }
+            nameTextField.text = item.name
+            currentItem = item
         default:
             nameTextField.text = initialName
         }
@@ -109,10 +107,10 @@ private extension ItemEditViewController {
                 try! realm.write {
                     realm.add(item)
                 }
-            case .edit(item: itemArray[itemId!]):
-                itemArray[itemId!].name = nameTextField.text!
+            case .edit(item: currentItem):
+                currentItem!.name = nameTextField.text!
                 try! realm.write {
-                    realm.add(itemArray[itemId!], update: Realm.UpdatePolicy.all)
+                    realm.add(currentItem!, update: Realm.UpdatePolicy.all)
                 }
             default :
                 break
