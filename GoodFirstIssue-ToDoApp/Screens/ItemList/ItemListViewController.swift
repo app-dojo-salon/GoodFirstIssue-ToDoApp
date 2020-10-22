@@ -25,14 +25,13 @@ class ItemListViewController: UIViewController {
             tableView.register(ItemCell.loadNib(), forCellReuseIdentifier: ItemCell.reuseIdentifier)
         }
     }
-    var realm: Realm?
+    var realm: Realm = try! Realm()
     var itemList: [(String)] = []
     var checkedList: [(Bool)] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        realm = try! Realm()
-        for item in realm!.objects(Item.self) {
+        for item in realm.objects(Item.self) {
             itemList.append(item.name)
             checkedList.append(item.isChecked)
         }
@@ -62,8 +61,7 @@ class ItemListViewController: UIViewController {
     @IBAction private func exitDone(segue: UIStoryboardSegue) {
         itemList = []
         checkedList = []
-        realm = try! Realm()
-        for item in realm!.objects(Item.self) {
+        for item in realm.objects(Item.self) {
             itemList.append(item.name)
             checkedList.append(item.isChecked)
         }
