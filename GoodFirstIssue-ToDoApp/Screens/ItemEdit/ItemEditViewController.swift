@@ -14,7 +14,7 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
     
     // MARK: ItemEditViewProtocol
 
-    var itemArray: Results<Item> = try! Realm().objects(Item.self)
+    let itemArray: Results<Item> = try! Realm().objects(Item.self)
     var itemId: Int?
     var initialName: String?
     var itemName: String {
@@ -110,6 +110,7 @@ private extension ItemEditViewController {
                     realm.add(item)
                 }
             case .edit(item: itemArray[itemId!]):
+                itemArray[itemId!].name = nameTextField.text!
                 try! realm.write {
                     realm.add(itemArray[itemId!], update: Realm.UpdatePolicy.all)
                 }

@@ -25,16 +25,14 @@ class ItemListViewController: UIViewController {
             tableView.register(ItemCell.loadNib(), forCellReuseIdentifier: ItemCell.reuseIdentifier)
         }
     }
-    var realm: Realm = try! Realm()
+    private var realm: Realm = try! Realm()
     var itemList: [(String)] = []
     var checkedList: [(Bool)] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        for item in realm.objects(Item.self) {
-            itemList.append(item.name)
-            checkedList.append(item.isChecked)
-        }
+        itemList = realm.objects(Item.self).map(\.name)
+        checkedList = realm.objects(Item.self).map(\.isChecked)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,12 +57,8 @@ class ItemListViewController: UIViewController {
     }
     
     @IBAction private func exitDone(segue: UIStoryboardSegue) {
-        itemList = []
-        checkedList = []
-        for item in realm.objects(Item.self) {
-            itemList.append(item.name)
-            checkedList.append(item.isChecked)
-        }
+        itemList = realm.objects(Item.self).map(\.name)
+        checkedList = realm.objects(Item.self).map(\.isChecked)
         tableView.reloadData()
 
         guard let itemEditView = segue.source as? ItemEditViewProtocol else {

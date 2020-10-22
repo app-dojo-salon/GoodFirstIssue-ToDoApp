@@ -15,6 +15,6 @@ class Item: Object {
     @objc dynamic var isDeleted: Bool = false
     
     override static func primaryKey() -> String? {
-        return "id"
+        "id"
     }
 }
