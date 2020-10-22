@@ -98,23 +98,28 @@ private extension ItemEditViewController {
     }
     
     @objc func saveButtonTapped(_ sender: UIBarButtonItem) {
-        let realm = try! Realm()
-        switch mode {
-        case .create:
-            let item: Item = Item()
-            var maxId: Int { return realm.objects(Item.self).sorted(byKeyPath: "id").last?.id ?? 0 }
-            item.id = maxId + 1
-            item.name = nameTextField.text!
-            try! realm.write {
-                realm.add(item)
+        do {
+            let realm = try Realm()
+            switch mode {
+            case .create:
+                let item: Item = Item()
+                var maxId: Int { return realm.objects(Item.self).sorted(byKeyPath: "id").last?.id ?? 0 }
+                item.id = maxId + 1
+                item.name = nameTextField.text!
+                try! realm.write {
+                    realm.add(item)
+                }
+            case .edit(item: itemArray[itemId!]):
+                try! realm.write {
+                    realm.add(itemArray[itemId!], update: Realm.UpdatePolicy.all)
+                }
+            default :
+                break
             }
-        case .edit(item: itemArray[itemId!]):
-            try! realm.write {
-                realm.add(itemArray[itemId!], update: Realm.UpdatePolicy.all)
-            }
-        default :
-            break
+        } catch {
+            print("realm error")
         }
+
         performSegue(withIdentifier: Segue.Exit, sender: nil)
     }
 }
