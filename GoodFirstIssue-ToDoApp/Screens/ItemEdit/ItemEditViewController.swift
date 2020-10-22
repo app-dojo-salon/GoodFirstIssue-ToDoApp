@@ -10,14 +10,11 @@ import UIKit
 import RealmSwift
 
 class ItemEditViewController: UIViewController, ItemEditViewProtocol {
-    private var realm: Realm?
     private var mode: Mode!
     
     // MARK: ItemEditViewProtocol
 
-    // 仮のデータ配列（Realmから取得する予定）
-    var itemArray: Results<Item>?
-
+    var itemArray: Results<Item> = try! Realm().objects(Item.self)
     var itemId: Int?
     var initialName: String?
     var itemName: String {
@@ -31,27 +28,22 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
     
     @IBOutlet weak private var saveButton: UIBarButtonItem!
     @IBOutlet weak private var nameTextField: UITextField!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        realm = try! Realm()
-        itemArray = realm!.objects(Item.self)
 
         switch mode {
         case .create:
             title = "項目追加"
             nameTextField.text = initialName
-            break
         case let .edit(item: item):
             title = "項目編集"
-            if itemArray!.contains(where: { $0.id == item.id }) {
+            if itemArray.contains(where: { $0.id == item.id }) {
                 nameTextField.text = item.name
                 itemId = item.id
             }
-            break
         default:
             nameTextField.text = initialName
-            break
         }
         nameTextField.delegate = self
         
@@ -106,21 +98,20 @@ private extension ItemEditViewController {
     }
     
     @objc func saveButtonTapped(_ sender: UIBarButtonItem) {
+        let realm = try! Realm()
         switch mode {
         case .create:
             let item: Item = Item()
-            var maxId: Int { return try! Realm().objects(Item.self).sorted(byKeyPath: "id").last?.id ?? 0 }
+            var maxId: Int { return realm.objects(Item.self).sorted(byKeyPath: "id").last?.id ?? 0 }
             item.id = maxId + 1
             item.name = nameTextField.text!
-            try! realm!.write {
-                realm!.add(item)
+            try! realm.write {
+                realm.add(item)
             }
-            break
-        case .edit(item: itemArray![itemId!]):
-            try! realm!.write {
-                realm!.add(itemArray![itemId!], update: Realm.UpdatePolicy.all)
+        case .edit(item: itemArray[itemId!]):
+            try! realm.write {
+                realm.add(itemArray[itemId!], update: Realm.UpdatePolicy.all)
             }
-            break
         default :
             break
         }
