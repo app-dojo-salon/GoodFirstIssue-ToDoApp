@@ -13,8 +13,6 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
     private var mode: Mode!
     
     // MARK: ItemEditViewProtocol
-
-    var itemId: Int?
     var initialName: String?
     var itemName: String {
         nameTextField.text ?? ""
@@ -35,9 +33,8 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
         switch mode {
         case .create:
             title = "項目追加"
-        case let .edit(id: id):
+        case let .edit(id: _):
             title = "項目編集"
-            itemId = id
         default:
             break
         }
@@ -105,7 +102,7 @@ private extension ItemEditViewController {
                 try! realm.write {
                     realm.add(item)
                 }
-            case .edit(id: itemId):
+            case let .edit(id: itemId):
                 guard let item = realm.object(ofType: Item.self, forPrimaryKey: itemId) else {
                     assertionFailure("id is invalid")
                     return
@@ -113,7 +110,6 @@ private extension ItemEditViewController {
                 
                 try! realm.write {
                     item.name = nameTextField.text!
-                    realm.add(item, update: Realm.UpdatePolicy.all)
                 }
             default :
                 break

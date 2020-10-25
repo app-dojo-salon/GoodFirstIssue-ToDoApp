@@ -10,7 +10,6 @@ import UIKit
 import RealmSwift
 
 protocol ItemEditViewProtocol {
-    var itemId: Int? { get set }
     var initialName: String? { get set }
     var itemName: String { get }
     func setup(mode: ItemEditViewController.Mode)
@@ -59,13 +58,7 @@ class ItemListViewController: UIViewController {
     @IBAction private func exitDone(segue: UIStoryboardSegue) {
         itemList = realm.objects(Item.self).map(\.name)
         checkedList = realm.objects(Item.self).map(\.isChecked)
-        tableView.reloadData()
-
-        guard let itemEditView = segue.source as? ItemEditViewProtocol else {
-            return
-        }
-        
-        print("itemEditView's id: \(itemEditView.itemId ?? -1), name: \(itemEditView.itemName).")
+        tableView.reloadData()        
     }
 
     @IBAction private func toEditVCTestTapped(_ sender: Any) {
@@ -84,7 +77,6 @@ private extension ItemListViewController {
     func configure(itemEditViewContainer: UIViewController, with item: Item) {
         if let container = itemEditViewContainer as? UINavigationController,
             var itemEditView = container.topViewController as? ItemEditViewProtocol {
-            itemEditView.itemId = item.id
             itemEditView.initialName = item.name
             itemEditView.setup(mode: ItemEditViewController.Mode.edit(id: item.id))
         }
