@@ -30,13 +30,11 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
         super.viewDidLoad()
 
         nameTextField.text = initialName
-        switch mode {
+        switch mode! {
         case .create:
             title = "項目追加"
-        case let .edit(id: _):
+        case .edit(id: _):
             title = "項目編集"
-        default:
-            break
         }
         nameTextField.delegate = self
         
@@ -93,7 +91,7 @@ private extension ItemEditViewController {
     @objc func saveButtonTapped(_ sender: UIBarButtonItem) {
         do {
             let realm = try Realm()
-            switch mode {
+            switch mode! {
             case .create:
                 let item: Item = Item()
                 var maxId: Int { return realm.objects(Item.self).sorted(byKeyPath: "id").last?.id ?? 0 }
@@ -111,8 +109,6 @@ private extension ItemEditViewController {
                 try! realm.write {
                     item.name = nameTextField.text!
                 }
-            default :
-                break
             }
         } catch {
             print("realm error")
