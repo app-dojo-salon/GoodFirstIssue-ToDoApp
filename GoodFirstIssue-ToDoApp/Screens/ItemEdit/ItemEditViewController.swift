@@ -7,21 +7,12 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ItemEditViewController: UIViewController, ItemEditViewProtocol {
     private var mode: Mode!
     
     // MARK: ItemEditViewProtocol
-
-    // 仮のデータ型
-    struct Item {
-        var id: Int
-        var name: String
-    }
-    // 仮のデータ配列（Realmから取得する予定）
-    var itemArray: [Item] = []
-
-    var itemId: Int?
     var initialName: String?
     var itemName: String {
         nameTextField.text ?? ""
@@ -34,23 +25,16 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
     
     @IBOutlet weak private var saveButton: UIBarButtonItem!
     @IBOutlet weak private var nameTextField: UITextField!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "項目追加"
 
-        switch mode {
+        nameTextField.text = initialName
+        switch mode! {
         case .create:
-            nameTextField.text = initialName
-            break
-        case let .edit(item: item):
-            if itemArray.contains(where: { $0.id == item.id }) {
-                nameTextField.text = item.name
-            }
-            break
-        default:
-            nameTextField.text = initialName
-            break
+            title = "項目追加"
+        case .edit(id: _):
+            title = "項目編集"
         }
         nameTextField.delegate = self
         
@@ -68,7 +52,7 @@ class ItemEditViewController: UIViewController, ItemEditViewProtocol {
 extension ItemEditViewController: UITextFieldDelegate {
     enum Mode {
         case create
-        case edit(item: Item)
+        case edit(id: Int)
     }
 
 // MARK: private
@@ -105,6 +89,31 @@ private extension ItemEditViewController {
     }
     
     @objc func saveButtonTapped(_ sender: UIBarButtonItem) {
+        do {
+            let realm = try Realm()
+            switch mode! {
+            case .create:
+                let item: Item = Item()
+                var maxId: Int { return realm.objects(Item.self).sorted(byKeyPath: "id").last?.id ?? 0 }
+                item.id = maxId + 1
+                item.name = nameTextField.text!
+                try! realm.write {
+                    realm.add(item)
+                }
+            case let .edit(id: itemId):
+                guard let item = realm.object(ofType: Item.self, forPrimaryKey: itemId) else {
+                    assertionFailure("id is invalid")
+                    return
+                }
+                
+                try! realm.write {
+                    item.name = nameTextField.text!
+                }
+            }
+        } catch {
+            print("realm error")
+        }
+
         performSegue(withIdentifier: Segue.Exit, sender: nil)
     }
 }
