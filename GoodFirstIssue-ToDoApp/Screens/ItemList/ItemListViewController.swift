@@ -60,12 +60,7 @@ class ItemListViewController: UIViewController {
         checkedList = realm.objects(Item.self).map(\.isChecked)
         tableView.reloadData()        
     }
-
-    @IBAction private func toEditVCTestTapped(_ sender: Any) {
-        // TODO: tableViewCellの編集ボタンが呼ばれたら、itemをsenderとしてsegueを実行する
-        let tempItem = TempItem(id: 10, name: "Test initial name")
-        performSegue(withIdentifier: Segue.ToItemEditVC, sender: tempItem)
-    }
+    
 }
 
 private extension ItemListViewController {
@@ -80,14 +75,6 @@ private extension ItemListViewController {
             itemEditView.initialName = item.name
             itemEditView.setup(mode: ItemEditViewController.Mode.edit(id: item.id))
         }
-    }
-}
-
-// TODO: Itemの実装ができたら削除する
-private extension ItemListViewController {
-    struct TempItem {
-        let id: Int
-        let name: String
     }
 }
 
@@ -112,6 +99,10 @@ extension ItemListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+    }
+    
+    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        let item = Item(id: realm.objects(Item.self)[indexPath.row].id, name: itemList[indexPath.row])
+        performSegue(withIdentifier: Segue.ToItemEditVC, sender: item)
     }
 }

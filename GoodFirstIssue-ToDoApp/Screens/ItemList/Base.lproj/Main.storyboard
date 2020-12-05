@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Yhx-67-WUa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Yhx-67-WUa">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,14 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qO1-y7-qB6">
-                                <rect key="frame" x="129" y="427.5" width="156" height="41"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <state key="normal" title="To Edit VC Test"/>
-                                <connections>
-                                    <action selector="toEditVCTestTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0kf-6L-DKB"/>
-                                </connections>
-                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vSO-vQ-XZd">
                                 <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -34,9 +26,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="vSO-vQ-XZd" secondAttribute="bottom" id="10n-a9-xVx"/>
-                            <constraint firstItem="qO1-y7-qB6" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="e1B-yH-7Hv"/>
                             <constraint firstItem="vSO-vQ-XZd" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="eJo-Q1-LbU"/>
-                            <constraint firstItem="qO1-y7-qB6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fsJ-oX-XB8"/>
                             <constraint firstItem="vSO-vQ-XZd" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="hFG-qz-Plo"/>
                             <constraint firstItem="vSO-vQ-XZd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ral-aZ-OS0"/>
                         </constraints>
