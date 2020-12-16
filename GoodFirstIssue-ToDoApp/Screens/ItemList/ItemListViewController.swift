@@ -24,20 +24,20 @@ class ItemListViewController: UIViewController {
             tableView.register(ItemCell.loadNib(), forCellReuseIdentifier: ItemCell.reuseIdentifier)
         }
     }
+    
     private var realm: Realm = try! Realm()
-    var itemList: [(String)] = []
-    var checkedList: [(Bool)] = []
+    var itemList: Results<Item>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        itemList = realm.objects(Item.self).map(\.name)
-        checkedList = realm.objects(Item.self).map(\.isChecked)
+        itemList = realm.objects(Item.self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
 
@@ -56,8 +56,7 @@ class ItemListViewController: UIViewController {
     }
     
     @IBAction private func exitDone(segue: UIStoryboardSegue) {
-        itemList = realm.objects(Item.self).map(\.name)
-        checkedList = realm.objects(Item.self).map(\.isChecked)
+        itemList = realm.objects(Item.self)
         tableView.reloadData()        
     }
     
@@ -81,7 +80,7 @@ private extension ItemListViewController {
 extension ItemListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        itemList.count
+        itemList!.count
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         60
@@ -89,7 +88,7 @@ extension ItemListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ItemCell.reuseIdentifier, for: indexPath)
         guard let itemCell = cell as? ItemCell else { return cell }
-        itemCell.configure(name: itemList[indexPath.row], checked: checkedList[indexPath.row])
+        itemCell.configure(name: itemList!.elements[indexPath.row].name, checked: itemList!.elements[indexPath.row].isChecked)
         return itemCell
     }
     
@@ -102,7 +101,6 @@ extension ItemListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        let item = Item(id: realm.objects(Item.self)[indexPath.row].id, name: itemList[indexPath.row])
-        performSegue(withIdentifier: Segue.ToItemEditVC, sender: item)
+        performSegue(withIdentifier: Segue.ToItemEditVC, sender: itemList![indexPath.row])
     }
 }
