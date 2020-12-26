@@ -17,4 +17,11 @@ class Item: Object {
     override static func primaryKey() -> String? {
         "id"
     }
+    
+    convenience init(id: Int, name: String) {
+        self.init()
+        self.id = id
+        self.name = name
+    }
+    
 }
