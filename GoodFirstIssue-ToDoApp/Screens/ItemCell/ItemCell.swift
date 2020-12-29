@@ -17,7 +17,7 @@ class ItemCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        checkedImage.image = nil
+        // checkedImage.image = nil
         itemNameLabel.text = nil
     }
     
