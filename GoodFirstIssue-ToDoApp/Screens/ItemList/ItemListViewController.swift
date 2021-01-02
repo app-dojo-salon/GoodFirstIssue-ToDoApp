@@ -89,6 +89,8 @@ extension ItemListViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ItemCell.reuseIdentifier, for: indexPath)
         guard let itemCell = cell as? ItemCell else { return cell }
         itemCell.configure(name: itemList!.elements[indexPath.row].name, checked: itemList!.elements[indexPath.row].isChecked)
+        let item = self.itemList![indexPath.row]
+        itemCell.checkedImage.isHidden = item.isChecked ? false : true
         return itemCell
     }
     
@@ -98,6 +100,17 @@ extension ItemListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+         do {
+            let realm = try Realm()
+            let item: Item = self.itemList![indexPath.row]
+            try! realm.write{
+                item.isChecked = !item.isChecked
+            }
+        } catch {
+            print("realm error")
+        }
+        self.tableView.reloadData()
+    }
     }
     
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
