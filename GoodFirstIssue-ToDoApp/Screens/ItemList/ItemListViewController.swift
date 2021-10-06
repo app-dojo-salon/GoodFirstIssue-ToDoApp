@@ -22,6 +22,8 @@ class ItemListViewController: UIViewController {
             tableView.delegate = self
             tableView.dataSource = self
             tableView.register(ItemCell.loadNib(), forCellReuseIdentifier: ItemCell.reuseIdentifier)
+            tableView.tableFooterView = UIView()
+            tableView.separatorStyle = .none
         }
     }
     
@@ -80,18 +82,32 @@ private extension ItemListViewController {
 extension ItemListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        itemList!.count
+        itemList?.count ?? 0
     }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        60
-    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ItemCell.reuseIdentifier, for: indexPath)
         guard let itemCell = cell as? ItemCell else { return cell }
         itemCell.configure(name: itemList!.elements[indexPath.row].name, checked: itemList!.elements[indexPath.row].isChecked)
         return itemCell
     }
-    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+            let item = UIContextualAction(style: .destructive, title: "Delete") {  (contextualAction, view, boolValue) in
+                
+                let alert = UIAlertController(title: "Delete", message: "Are you sure you want delete ?", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
+                alert.addAction(UIAlertAction(title: "Delete", style: UIAlertAction.Style.destructive,handler: { (alert) in
+                    print("Delete Item at index",indexPath.row)
+                }))
+                self.present(alert, animated: true, completion: nil)
+                
+            }
+            item.image = UIImage(named: "deleteIcon")
+
+            let swipeActions = UISwipeActionsConfiguration(actions: [item])
+        
+            return swipeActions
+        }
 }
 
 extension ItemListViewController: UITableViewDelegate {
